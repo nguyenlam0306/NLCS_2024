@@ -18,10 +18,10 @@ class Grader:
     def define_page(self, im):
         # Tim va tra ve o thong tin tra loi trong anh bai lam:
         """
-               Finds and returns the test box within a given image.
+              Tim va tra ve  test box với hình cho trước.
 
                Args:
-                   im (numpy.ndarray): An ndarray representing the entire test image.
+                   im (numpy.ndarray): ảnh thử nghiệm.
 
                Returns:
                    numpy.ndarray: An ndarray representing the test box in the image.
@@ -212,7 +212,7 @@ def decode_qr(self, im):
             if '6ques' in config_fname.lower():
                 config_fname = os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), 'config/6ques.json')
             else:
-                config_fname = os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), 'config/50q.json')
+                config_fname = os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), 'config/50ques.json')
 
         # Read config file into dictionary and scale values. Check for duplicate
         # keys with object pairs hook.
