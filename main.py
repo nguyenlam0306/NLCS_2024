@@ -8,7 +8,7 @@ from tkinter import filedialog, messagebox
 import cv2 as cv
 from imutils.perspective import four_point_transform
 import pyzbar.pyzbar as pyzbar
-
+import parser_config
 import config
 
 import utils
@@ -219,7 +219,7 @@ def decode_qr(self, im):
         try:
             with open(config_fname) as file:
                 config = json.load(file,
-                    object_pairs_hook= parser.duplicate_key_check)
+                    object_pairs_hook= parser_config.duplicate_key_check)
         except FileNotFoundError:
             data['status'] = 1
             data['error'] = f'Configuration file qrData not found'
@@ -227,7 +227,7 @@ def decode_qr(self, im):
 
 
         # Parse config file.
-        parser = parser.Parser(config, config_fname)
+        parser = parser_config.Parser(config, config_fname)
         status, error = parser.parse()
         if status == 1:
             data['status'] = 1
