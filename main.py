@@ -235,3 +235,5 @@ def decode_qr(self, im):
             return json.dump(data, sys.stdout)
 
 
+
+
