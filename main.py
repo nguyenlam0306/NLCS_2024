@@ -9,8 +9,6 @@ import cv2 as cv
 from imutils.perspective import four_point_transform
 import pyzbar.pyzbar as pyzbar
 import parser_config
-import config
-
 import utils
 
 class Grader:

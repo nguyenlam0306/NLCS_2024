@@ -1,0 +1,79 @@
+{
+  "page_width": ,
+  "page_heigth": ,
+  "bubble_width":,
+  "bubble_height": ,
+  "qr_x": ,
+  "qr_y":,
+  "x_error":,
+  "y_error":,
+  "boxes":
+  [
+    {
+      "name": "answer",
+      "type": "letter",
+      "orientation": "left-to-right",
+      "multiples_response": false,
+      "x": ,
+      "y": ,
+      "rows": ,
+      "colums": ,
+      "groups": [
+        {
+          "x_min": ,
+          "x_max": ,
+          "y_min": ,
+          "y_max":
+        }
+        {
+          "x_min": ,
+          "x_max": ,
+          "y_min": ,
+          "y_max":
+        }
+        {
+          "x_min": ,
+          "x_max": ,
+          "y_min": ,
+          "y_max":
+        }
+      ]
+    },
+    {
+      "name": "version" ,
+      "type": "letter",
+      "orientation": "left-to-right",
+      "multiple_response": true,
+      "x": ,
+      "y": ,
+      "rows": ,
+      "columns": ,
+      "groups": [
+        {
+          "x_min": ,
+          "x_max": ,
+          "y_min": ,
+          "y_max":
+        }
+      ]
+    },
+    {
+      "name": "id",
+      "type": "number",
+      "orientation": ,
+      "multiple_response":,
+      "x": ,
+      "y": ,
+      "rows": ,
+      "columns": ,
+      "group": [
+        {
+          "x_min": ,
+          "x_max": ,
+          "y_min": ,
+          "y_max":
+        }
+      ]
+    }
+  ]
+}
