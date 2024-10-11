@@ -146,11 +146,10 @@ class TextBox:
 
     def get_box(self):
         """
-        Finds and returns the contour for this test answer box.
+        Tim va tra ve cac duong bien cho o tra loi.
 
         Returns:
-            numpy.ndarray: An ndarray representing the answer box in
-                the test image.
+            numpy.ndarray: An ndarray dai dien cho  khu vuc box tra loi trong khu vuc test.
 
         """
         # Blur and threshold the page, then find boxes within the page.
@@ -167,3 +166,19 @@ class TextBox:
         return None
 
 
+    def init_questions(self):
+        """
+        Tao va tra ve danh sach mang trong dua tren so luong cau hoi trong group
+
+        questions: danh sach ve nhung chuoi trong
+        """
+        questions = []
+        if self.orientation == 'left-to-right':
+            num_questions = self.rows
+        elif self.orientation == 'top-to-bottom':
+            num_questions = self.columns
+
+        for _ in range(num_questions):
+            questions.append([])
+
+        return questions

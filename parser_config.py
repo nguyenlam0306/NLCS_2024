@@ -14,43 +14,28 @@ class Parser:
 
     def __init__(self, config, fname):
         """
-        Constructor for a new config file parser.
-
-        Args:
-            config (dict): A dictionary containing the config file values for
-                this test box.
-            fname (str): The name of the config file being parsed.
-
-        Returns:
-            Parser: A newly created parser.
+       Xay dung 1 file moi config file duoc parse.
 
         """
         self.config = config
         self.fname = fname
         self.status = 0
         self.error = ''
-# thiet ke cac ham tim loi nguoi dung nhap vao:
+
+    # thiet ke cac ham tim loi nguoi dung nhap vao:
 
     def type_error(self, key, want, got):
         """
-        Sets the status and error message for a type error in the config file.
+        Tra ve status va thong diep error khi type -> loi trong config file.
 
-        Args:
-            key (str): The name of the key with a type error.
-            want (str): The expected type for that key.
-            got (str): The received type for that key.
-
-        """
+          """
         self.status = 1
         self.error = f'Key \'{key}\' expected {want}, found {got}'
 
 
     def unknown_key_error(self, key):
         """
-        Sets the status and error message for an unknown key in the config file.
-
-        Args:
-            key (str): The name of the unknown key.
+       Tra ve status va thong diep error khi key unknown trong config file.
 
         """
         self.status = 1
@@ -59,11 +44,7 @@ class Parser:
 
     def missing_key_error(self, key, dict_name):
         """
-        Sets the status and error message for a missing key in the config file.
-
-        Args:
-            key (str): The name of the missing key.
-            dict_name (str): The location of the missing key.
+       Thieu key -> bat loi.
 
         """
         self.status = 1
@@ -71,25 +52,14 @@ class Parser:
 
     def unknown_value_error(self, key, value):
         """
-        Sets the status and error message for a key with an unknown value in the
-        config file.
-
-        Args:
-            key (str): The name of the key with a value error.
-            value (str): The unknown value for the given key.
-
+        Value error trong key
         """
         self.status = 1
         self.error = f'Unknown value \'{value}\' for key \'{key}\''
 
     def neg_float_error(self, key, value):
         """
-        Sets the status and error message for a key with a negative float value.
-
-        Args:
-            key (str): The name of the key with a negative value error.
-            value (float): The negative float value.
-
+         So thuc am -> Bat loi
         """
         self.status = 1
         self.error = (f'Key \'{key}\' must have a non-negative value. Found '
@@ -98,13 +68,7 @@ class Parser:
 
     def non_pos_int_error(self, key, value):
         """
-        Sets the status and error message for a key with a non-positive int
-        value.
-
-        Args:
-            key (str): The name of the key with a non positive value error.
-            value (int): The non positive int value.
-
+        So nguyen khong am --> bat loi
         """
         self.status = 1
         self.error = (f'Key \'{key}\' must have a positive value. Found value '
@@ -112,15 +76,7 @@ class Parser:
 
     def min_max_error(self, min_key, min_value, max_key, max_value):
         """
-        Sets the status and error message for a min value greater than a max
-        value.
-
-        Args:
-            min_key (str): The name of the min key.
-            min_value (float): The value of the min key.
-            max_key (str): The name of the max key.
-            max_value (float): The value of the max key.
-
+        Min < max --> bat loi
         """
         self.status = 1
         self.error = (f'Key \'{min_key}\':\'{min_value}\' must have a value '
@@ -128,12 +84,7 @@ class Parser:
 
     def parse_int(self, key, value):
         """
-        Checks if a value is of type int. If not, sets error status and message.
-
-        Args:
-            key (str): The key associated with the value being checked.
-            value (int): The value being checked.
-
+        Gia tri int trong value cua 1 so key su dung ham isinstance;
         """
         if not (isinstance(value, int)):
             self.type_error(key, 'int', str(type(value)))
@@ -145,12 +96,7 @@ class Parser:
 
     def parse_float(self, key, value):
         """
-        Checks if a value is of type float. If not, sets error status and
-        message.
-
-        Args:
-            key (str): The key associated with the value being checked.
-            value (float): The value being checked.
+      Check float trong key --> value.
 
         """
         if not (isinstance(value, float)):
@@ -162,12 +108,7 @@ class Parser:
 
     def parse_bool(self, key, value):
         """
-        Checks if a value is of type boolean. If not, sets error status and
-        message.
-
-        Args:
-            key (str): The key associated with the value being checked.
-            value (boolean): The value being checked.
+        Check bool
 
         """
         if not (isinstance(value, bool)):
@@ -176,11 +117,7 @@ class Parser:
 
     def parse_box_orientation(self, orientation):
         """
-        Checks if the orientation is valid. If not, sets error status and
-        message.
-
-        Args:
-            orientation (str): The orientation of bubbles in a test box.
+        Check orientation is valid
 
         """
         if orientation not in self.box_orientations:
@@ -188,11 +125,7 @@ class Parser:
 
     def parse_box_type(self, box_type):
         """
-        Checks if the box type is valid. If not, sets error status and message.
-
-        Args:
-            box_type (str): The type of bubbles in a test box.
-
+        Gia tri box_type
         """
         if box_type not in self.box_types:
             self.unknown_value_error('type', box_type)
@@ -200,13 +133,7 @@ class Parser:
 
     def parse_string(self, key, value):
         """
-        Checks if a value is of type string. If the value is of type string,
-        parses its value. If not, sets error status and message.
-
-        Args:
-            key (str): The key associated with the value being checked.
-            value (str): The value being checked.
-
+       parse doi voi key == type va orientation
         """
         if isinstance(value, str):
             if key == 'type':
@@ -219,16 +146,38 @@ class Parser:
 
     def parse_group_key(self, key, value):
         """
-        Checks if the group value is valid. All group values should be of type
-        float.
-
-        Args:
-            key (str): The key associated with the value being checked.
-            value (float): The value being checked.
+        group
 
         """
         self.parse_float(key, value)
 
+    def parse_group(self, group):
+        """
+        Check group trong dict -> tra ve error + message
+        :param group:
+        :return:
+        """
+        if isinstance(group, dict):
+            # Check for missing keys:
+            for key in self.group_keys:
+                if key not in group:
+                    self.missing_key_error(key, group)
+                    break
+
+            for (key, value) in group.items():
+                if key in self.group_keys:
+                    self.parse_group_key(key, value)
+                else:
+                    self.unknown_key_error(key)
+                    break
+
+            if group['x_min'] > group['x_max']:
+                self.min_max_error('x_min', group['x_min'], 'x_max', group['x_max'])
+            if group['y_min'] > group['y_max']:
+                self.min_max_error('y_min', group['y_min'], 'y_max', group['y_max'])
+
+        else:
+            self.type_error('group', 'dict', str(type(group)))
 
     def parse_box_key(self, key, value):
         """
@@ -278,13 +227,23 @@ class Parser:
         else:
             self.type_error('box', 'dict', str(type(box)))
 
+    def parse_groups(self, groups):
+        """
+        Groups -> group -> parse group
+        :param groups:
+        :return:
+        """
+
+        if isinstance(groups, list):
+            for group in groups:
+                self.parse_group(group)
+        else:
+            self.type_error('groups', 'list', str(type(groups)))
+
+
     def parse_boxes(self, boxes):
         """
-        Checks if boxes is of type list. If it is, parses each member of the
-        list. If not, sets error status and message.
-
-        Args:
-            boxes (list): The list of box dicts.
+      boxes -> check lists -> box
 
         """
         if isinstance(boxes, list):
@@ -295,11 +254,7 @@ class Parser:
 
     def parse_config_key(self, key, value):
         """
-        Parses key/value pairs in a config dict.
-
-        Args:
-            key (str): The key associated with the value being checked.
-            value (?): The value being checked.
+       Parse key + value trong config dict
 
         """
         if key == 'boxes':
@@ -309,12 +264,7 @@ class Parser:
 
     def parse(self):
         """
-        Checks if config is of type dict. If it is, parses each key/value pair.
-        If not, sets error status and message.
-
-        Returns:
-            status (int): 0 if no errors detected, 1 otherwise.
-            error (str): Error message if error detected.
+        Check dict -> parse
 
         """
         # Check that config is dict.
@@ -340,7 +290,7 @@ class Parser:
 
 def duplicate_key_check(ordered_pairs):
     """
-    Raise value error if duplicate keys detected in config file.
+    Check du lieu la 1 cap -> Phat hien
 
     Args:
         ordered_pairs (list): A key/value pair in the config file.

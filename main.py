@@ -144,18 +144,18 @@ def decode_qr(self, im):
 
     def grade(self, image_name, verbose_mode, debug_mode, scale):
         """
-        Grades a test image and outputs the result to stdout as a JSON object.
+        Cham diem 1 test image aa tra ve ket qua ra man dang JSON object
 
         Args:
-            image_name (str): Filepath to the test image to be graded.
-            verbose_mode (bool): True to run program in verbose mode, False
+            image_name (str): Duong dan den test image de tien hanh cham diem.
+            verbose_mode (bool): Che do verbose - chi tiet hoa, False
                 otherwise.
-            debug_mode (bool): True to run program in debug mode, False
+            debug_mode (bool): Chay o che do debug, False
                 otherwise.
-            scale (str): Factor to scale image slices by.
+            scale (str): Chinh ti le khung anh vua voi kich thuoc.
 
         """
-        # Initialize dictionary to be returned.
+        # Khoi tao tu dien tra ve:
         data = {
             'status' : 0,
             'error' : ''
@@ -178,27 +178,27 @@ def decode_qr(self, im):
             data['error'] = f'Scale {scale} must be positive'
             return json.dump(data, sys.stdout)
 
-        # Verify that the filepath leads to a .png or .jpg
+        # Kiem chung file phai la .png or .jpg
         if not (image_name.endswith('.png') or image_name.endswith('.jpg')):
             data['status'] = 1
             data['error'] = f'File {image_name} must be of type .png or .jpg'
             return json.dump(data, sys.stdout)
 
-        # Load image.
+        # Khu vuc load hinh anh --> Camera:
         im = cv.imread(image_name)
         if im is None:
             data['status'] = 1
             data['error'] = f'Image {image_name} not found'
             return json.dump(data, sys.stdout);
 
-        # Find test page within image.
+        # Tim trang va tra ve ket qua
         page = self.find_page(im)
         if page is None:
             data['status'] = 1
             data['error'] = f'Page not found in {image_name}'
             return json.dump(data, sys.stdout);
 
-        # Decode QR code, which will contain path to configuration file.
+        # Xac dinh khu vuc qr code:
         qr_code = self.decode_qr(page)
         if qr_code is None:
             data['status'] = 1
@@ -206,13 +206,14 @@ def decode_qr(self, im):
             return json.dump(data, sys.stdout);
         else:
             config_fname = qr_code.data.decode('utf-8')
-            # Based on QR code, decide whether to use 6q or 50q config.
-            if '6ques' in config_fname.lower():
+            # Dua tren qrcode da doc xac dinh xem mau 6q hay mau 50q
+            if '6q' in config_fname.lower():
                 config_fname = os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), 'config/6ques.json')
             else:
                 config_fname = os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), 'config/50ques.json')
 
-        # Read config file into dictionary and scale values. Check for duplicate
+
+        # Doc file config trong tu dien va gia tri cua ti le. Check duplicate xem key co trung khong
         # keys with object pairs hook.
         try:
             with open(config_fname) as file:
@@ -224,7 +225,7 @@ def decode_qr(self, im):
             return json.dump(data, sys.stdout)
 
 
-        # Parse config file.
+        # Tien hanh parse config theo config file va gia tri config nap vao:
         parser = parser_config.Parser(config, config_fname)
         status, error = parser.parse()
         if status == 1:
