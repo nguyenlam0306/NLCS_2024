@@ -182,3 +182,51 @@ class TextBox:
             questions.append([])
 
         return questions
+
+    def get_question_diff(self, config):
+        """
+        Tim va tra ve khoang cach giua cac cau hoi
+        :param config: tu dien chua gia tri config cho bubble groups
+        :return: float: khoang cach giua cac cau hoi trong groups
+        """
+        if self.orientation == 'left-to-right':
+            if self.rows == 1:
+                return 0
+            else:
+                return (config['y_max'] - config['y_min']) / (self.rows - 1)
+        elif self.orientation == 'top-to-bottom':
+            if self.columns == 1:
+                return 0
+            else:
+                return (config['x_max'] - config['x_min']) / (self.columns - 1)
+
+    def get_question_offset(self, config):
+        """
+        Trả về điểm bắt đầu cho 1 nhóm bubbles trong bài ktra dựa trên cấu hình config
+        :param config: 1 dictionary chứa các giá trị đầu vào cho bubble hiện tại
+        :return: float: question_offset
+        """
+        if self.orientation == 'left-to-right':
+            return config['y_min'] - self.y
+        elif self.orientation == 'top-to-bottom':
+            return config['x_min'] - self.x
+
+    def get_question_num(self, bubble, diff, offset):
+        """
+        Tìm và trả về số câu hỏi của 1 bubble dựa trên tọa độ của nó và thông số cau trúc của nhóm câu hỏi
+        :param bubble: đại diện cho 1 ô trong trắc nghiệm
+        :param diff: khoảng cách các câu hỏi trong nhóm bubbles này -> khoảng cách liền kề theo hướng quét
+        :param offset: Vị trí bắt đầu của nhóm bubbles. Thong số giúp xác định bubble đầu tiên của nhóm
+        :return: số lươợng câu hỏi
+        """
+
+        if diff==0:
+            return 0
+
+        (x,y,_,_) = cv.boundingRect(bubble)
+
+        if self.orientation == 'left-to-right':
+            return round((y - offset) / diff)
+
+        elif self.orientation == 'top-to-bottom':
+            return round((x - offset) / diff)
