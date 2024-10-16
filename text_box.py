@@ -1,12 +1,10 @@
 import math
-from tokenize import group
-
 import cv2 as cv
 from imutils import contours as cutils
 import numpy as np
 import utils
 
-class TextBox:
+class TestBox:
     def __init__(self, page, config, verbose_mode, debug_mode, scale):
         """
         Constructor for a new test box.
@@ -62,7 +60,7 @@ class TextBox:
 
     def get_bubble_group(self, bubble):
         """
-        Find and returns the group number that a bubble belong to.
+       Tim va tra ve so nhom ma o do thuoc ve
 
         Args:
         bubble (numpy.ndarray): An ndarray representing a bubble contour.
@@ -88,6 +86,11 @@ class TextBox:
 
 
     def is_bubble(self, contour):
+        """
+         Kiem tra co phai la 1 o trong bai thi dua tren contour cua no
+        :param contour:
+        :return:
+        """
         (x,y,w,h) = cv.boundingRect(contour)
         aspect_ratio = w / float(h)
 
@@ -101,15 +104,17 @@ class TextBox:
             return False
 
         for (i, group) in enumerate(self.groups):
-            if (x >= group['x_min'] - self.x_error and
-                    x <= group['x_max'] + self.x_error and
-                    y >= group['y_min'] - self.y_error and
-                    y <= group['y_max'] + self.y_error):
+            if (x >= group['x_min'] - self.x_error and x <= group['x_max'] + self.x_error and y >= group['y_min'] - self.y_error and y <= group['y_max'] + self.y_error):
                 return True
 
         return False
 
     def get_bubbles(self, box):
+        """
+        Tim va tra ve bubble trong test box
+        :param box:
+        :return:
+        """
         #Find bubbles in box:
         contours, _ = cv.findContours(box, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
 
@@ -293,7 +298,7 @@ class TextBox:
 
         #Get coordinages of images slice.
         config = self.groups[group_num]
-        (x_max, x_min, y_min, y_max) = self.get_image_coords(question_num, group_num, config)
+        (x_min, x_max, y_min, y_max) = self.get_image_coords(question_num, group_num, config)
 
         #Crop image and scale:
         im = box[int(y_min) : int(y_max), int(x_min) : int(x_max)]

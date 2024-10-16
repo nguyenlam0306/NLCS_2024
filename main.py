@@ -3,20 +3,19 @@ import sys
 import argparse
 import json
 import re
-import tkinter as tk
-from tkinter import filedialog, messagebox
 import cv2 as cv
 from imutils.perspective import four_point_transform
 import pyzbar.pyzbar as pyzbar
 import parser_config
 import utils
+from text_box import TestBox
 
 class Grader:
 # Tim khu vuc bai lam:
     def find_page(self, im):
         # Tim va tra ve o thong tin tra loi trong anh bai lam:
         """
-              Tim va tra ve  test box với hình cho trước.
+              Tim va tra ve khu vưc bài làm với hình cho trước.
 
                Args:
                    im (numpy.ndarray): ảnh thử nghiệm.
@@ -46,6 +45,7 @@ class Grader:
                     break
         else:
             return None
+
         return four_point_transform(imgray, page.reshape(4, 2))
 
         # Nhận diện mã QR code
@@ -53,7 +53,7 @@ class Grader:
 
     def decode_qr(self, im):
         """
-        Finds and decodes the QR code inside of a test image.
+        Tìm và trả về QR code trong ảnh bài làm
 
         Args:
             im (numpy.ndarray): An ndarray representing the entire test image.
@@ -71,9 +71,31 @@ class Grader:
         else:
             return decoded_objects[0]
 
+
+    def image_is_upright(self, page, config):
+        """
+        Kiem tra xem anh co bi upright dưa tren toa do cua QR trong anh
+        :param page:
+        :param config:
+        :return:
+        True: Upright
+        False: Otherwise
+        """
+        qr_code = self.decode_qr(page)
+        qr_x = qr_code.rect.left
+        qr_y = qr_code.rect.top
+        x_error = config['x_error']
+        y_error = config['y_error']
+
+        if (config['qr_x'] - x_error <= qr_x <= config['qr_x'] + x_error) and (config['qr_y'] - y_error <= qr_y <= config['qr_y'] + y_error):
+            return True
+        else:
+            return False
+
+
     def upright_image(self, page, config):
         """
-        Rotates an image by 90 degree increments until it is upright.
+            Rotates an image by 90 degree increments until it is upright.
 
         Args:
             page (numpy.ndarray): An ndarray representing the test image.
@@ -233,6 +255,33 @@ class Grader:
             data['status'] = 1
             data['error'] = error
             return json.dump(data, sys.stdout)
+
+        # Scale config values based on page size.
+        self.scale_config(config, page.shape[1], page.shape[0])
+
+        # Rotate page until upright.
+        page = self.upright_image(page, config)
+        if page is None:
+            data['status'] = 1
+            data['error'] = f'Could not upright page in {image_name}'
+            return json.dump(data, sys.stdout);
+
+        # Grade each test box and add result to data.
+        for box_config in config['boxes']:
+            box_config['x_error'] = config['x_error']
+            box_config['y_error'] = config['y_error']
+            box_config['bubble_width'] = config['bubble_width']
+            box_config['bubble_height'] = config['bubble_height']
+            box = TestBox(page, box_config, verbose_mode, debug_mode, scale)
+            data[box.name] = box.grade()
+
+        # Output result as a JSON object to stdout.
+        json.dump(data, sys.stdout)
+        print()
+
+        # For debugging.
+        return json.dumps(data)
+
 
 
 

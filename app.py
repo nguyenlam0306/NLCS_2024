@@ -18,9 +18,10 @@ class GraderApp:
         self.button_browse = tk.Button(root, text="Browse", command=self.browse_image)
         self.button_browse.grid(row=0, column=2, padx=10, pady=10)
 
-        # Information about the image file
-        self.label_image_contains = tk.Label(root, text="Image must be .png or .jpg and clear.")
-        self.label_image_contains.grid(row=1, column=0, columnspan=3, padx=5, pady=5)
+# information:
+        self.label_image_contains = tk.Label(root, text="Ảnh rõ nét đường biên và mã QR, phải là png hoặc jpg.")
+        self.label_image_contains.grid(row=1, column=0, padx=5, pady=5)
+
 
         # JSON answer file input
         self.label_json = tk.Label(root, text="Answer File (JSON):")
@@ -57,14 +58,13 @@ class GraderApp:
     def browse_image(self):
         file_path = filedialog.askopenfilename(filetypes=[("Image Files", "*.png;*.jpg")])
         if file_path:
-            self.entry_image.delete(0, tk.END)  # Clear previous entry
             self.entry_image.insert(0, file_path)
 
     def browse_json(self):
         file_path = filedialog.askopenfilename(filetypes=[("JSON Files", "*.json")])
         if file_path:
-            self.entry_json.delete(0, tk.END)  # Clear previous entry
             self.entry_json.insert(0, file_path)
+
 
     def grade(self):
         image_name = self.entry_image.get()
@@ -73,31 +73,18 @@ class GraderApp:
         debug_mode = self.debug_var.get()
         scale = self.entry_scale.get()
 
-        # Validate inputs
         if not image_name:
             messagebox.showerror("Error", "Please select an image.")
             return
-        if not json_file:
-            messagebox.showerror("Error", "Please select a JSON answer file.")
-            return
-        if not scale:
-            messagebox.showerror("Error", "Please enter a scale.")
-            return
 
         try:
-            # Convert scale to a float
-            scale = float(scale)
-
             # Grader function logic
             grader = Grader()
             result = grader.grade(image_name, verbose_mode, debug_mode, scale)
             self.text_output.delete(1.0, tk.END)  # Clear previous output
             self.text_output.insert(tk.END, result)  # Display result in the text box
-        except ValueError:
-            messagebox.showerror("Error", "Scale must be a valid number.")
         except Exception as e:
             messagebox.showerror("Error", str(e))
-
 
 if __name__ == "__main__":
     root = tk.Tk()
