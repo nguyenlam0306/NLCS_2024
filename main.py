@@ -165,6 +165,15 @@ class Grader:
 
         # Ham grade quan trong:
 
+
+# Hàm để chấm điểm từng câu
+    def grade_single_answer(student_answer, correct_answer):
+        score = 0
+        for student, correct in zip(student_answer, correct_answer):
+            if student == correct:
+                score += 1
+        return score
+
     def grade(self, image_name, verbose_mode, debug_mode, scale):
         """
         Cham diem 1 test image aa tra ve ket qua ra man dang JSON object
@@ -275,8 +284,27 @@ class Grader:
             box = TestBox(page, box_config, verbose_mode, debug_mode, scale)
             data[box.name] = box.grade()
 
+
+
         # Output result as a JSON object to stdout.
         json.dump(data, sys.stdout)
+
+        # Đọc file JSON chứa đáp án đúng
+        with open('answer_data.json', 'r') as f:
+            correct_data = json.load(f)
+
+        # Kiểm tra phần version
+        student_version = data['version']['bubbled']
+        correct_version = correct_data['version']['bubbled']
+        if student_version == correct_version:
+
+
+            # Chấm điểm phần answer
+            student_answer = data['answer']['bubbled']
+            correct_answer = correct_data['answer']['bubbled']
+            answer_score = self.grade_single_answer(student_answer, correct_answer)
+
+
         print()
 
         # For debugging.
