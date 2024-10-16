@@ -13,7 +13,7 @@ import utils
 
 class Grader:
 # Tim khu vuc bai lam:
-    def define_page(self, im):
+    def find_page(self, im):
         # Tim va tra ve o thong tin tra loi trong anh bai lam:
         """
               Tim va tra ve  test box với hình cho trước.
@@ -48,27 +48,28 @@ class Grader:
             return None
         return four_point_transform(imgray, page.reshape(4, 2))
 
-# Nhận diện mã QR code
+        # Nhận diện mã QR code
 
-def decode_qr(self, im):
-    """
-    Finds and decodes the QR code inside of a test image.
 
-    Args:
-        im (numpy.ndarray): An ndarray representing the entire test image.
+    def decode_qr(self, im):
+        """
+        Finds and decodes the QR code inside of a test image.
 
-    Returns:
-        pyzbar.Decoded: A decoded QR code object.
+        Args:
+            im (numpy.ndarray): An ndarray representing the entire test image.
 
-    """
-    # Increase image contrast to better identify QR code.
-    _, new_page = cv.threshold(im, 127, 255, cv.THRESH_BINARY)
-    decoded_objects = pyzbar.decode(new_page)
+        Returns:
+            pyzbar.Decoded: A decoded QR code object.
 
-    if not decoded_objects:
-        return None
-    else:
-        return decoded_objects[0]
+        """
+        # Increase image contrast to better identify QR code.
+        _, new_page = cv.threshold(im, 127, 255, cv.THRESH_BINARY)
+        decoded_objects = pyzbar.decode(new_page)
+
+        if not decoded_objects:
+            return None
+        else:
+            return decoded_objects[0]
 
     def upright_image(self, page, config):
         """

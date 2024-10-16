@@ -50,3 +50,31 @@ def rotate_image(img, angle):
     return cv.warpAffine(img, rot_mat, (int(math.ceil(nw)),
                                        int(math.ceil(nh))), flags=cv.INTER_LANCZOS4)
 
+
+def encode_image(image, format="png"):
+    """
+    Encodes an image into a base64 string.
+
+    Args:
+        image (numpy.ndarray): An ndarray representing an image.
+        format (str): The format to encode the image in. Options are 'png' or 'jpg'.
+
+    Returns:
+        str: A base64 string encoding of the image, or None if the encoding fails.
+
+    """
+    if image is None:
+        return None
+    else:
+        # Ensure the format is either 'png' or 'jpg'
+        ext = '.jpg' if format.lower() in ['jpg', 'jpeg'] else '.png'
+
+        # Encode the image to the required format
+        success, binary = cv.imencode(ext, image)
+
+        if success:
+            # Convert binary data to base64
+            encoded = base64.b64encode(binary)
+            return encoded.decode('utf-8')
+        else:
+            return None
