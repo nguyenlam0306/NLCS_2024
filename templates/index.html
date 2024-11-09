@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Grading System</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .container { margin: 50px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Upload Test Image</h2>
+        <form id="upload-form" enctype="multipart/form-data">
+            <input type="file" id="file-input" name="file" accept=".jpg, .png"><br><br>
+            <button type="button" onclick="uploadFile()">Upload and Grade</button>
+        </form>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function uploadFile() {
+            const formData = new FormData(document.getElementById('upload-form'));
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').innerText = JSON.stringify(data, null, 2);
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>

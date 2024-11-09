@@ -8,7 +8,7 @@ from imutils.perspective import four_point_transform
 import pyzbar.pyzbar as pyzbar
 import parser_config
 import utils
-from text_box import TestBox
+from test_box import TestBox
 
 class Grader:
 # Tim khu vuc bai lam:
@@ -166,13 +166,70 @@ class Grader:
         # Ham grade quan trong:
 
 
-# Hàm để chấm điểm từng câu
-    def grade_single_answer(student_answer, correct_answer):
-        score = 0
-        for student, correct in zip(student_answer, correct_answer):
-            if student == correct:
-                score += 1
-        return score
+    def load_correct_answers(self, file_path):
+        """
+        Load đáp án đúng từ file JSON.
+
+        Args:
+            file_path (str): Đường dẫn tới file JSON chứa đáp án đúng.
+
+        Returns:
+            dict: Dictionary chứa đáp án đúng cho từng phiên bản.
+        """
+        try:
+            with open(file_path, 'r') as f:
+                correct_answers = json.load(f)
+            return correct_answers
+        except FileNotFoundError:
+            print(f"File not found: {file_path}")
+            return {}
+        except json.JSONDecodeError:
+            print(f"Error decoding JSON from file: {file_path}")
+            return {}
+
+
+    def calculate_score(self, data, version_correct_answers):
+        """
+        Tính điểm dựa trên câu trả lời của người dùng và đáp án đúng.
+
+        Args:
+            data (dict): Kết quả đọc từ các box chấm được.
+            version_correct_answers (dict): Đáp án đúng cho từng phiên bản.
+
+        Returns:
+            dict: Dữ liệu cập nhật với điểm số.
+        """
+        # Lấy phiên bản từ kết quả
+        selected_version = data.get("version", {}).get("bubbled", [])
+        if not selected_version:
+            data['status'] = 1
+            data['error'] = "Khong xac dinh duoc phien ban"
+            return data
+
+        selected_version = selected_version[0]  # Giả sử chỉ có một phiên bản
+        user_answers = data.get("answer", {}).get("bubbled", [])
+
+        # Kiểm tra xem phiên bản có tồn tại trong đáp án đúng không
+        if selected_version not in version_correct_answers:
+            data['status'] = 1
+            data['error'] = "Phien ban khong hop le hoac khong co dap an cho phien ban nay"
+            return data
+
+        # Lấy đáp án đúng dựa trên phiên bản
+        correct_answers = version_correct_answers[selected_version]
+
+        # Tính điểm
+        score = sum(1 for user_ans, correct_ans in zip(user_answers, correct_answers) if user_ans == correct_ans)
+        total_questions = len(correct_answers)
+
+        # Cập nhật điểm vào data
+        data['score'] = {
+            'correct': score,
+            'total': total_questions,
+            'percentage': round((score / total_questions) * 100, 2)
+        }
+
+        return data
 
     def grade(self, image_name, verbose_mode, debug_mode, scale):
         """
@@ -192,6 +249,15 @@ class Grader:
             'status' : 0,
             'error' : ''
         }
+            # Đọc đáp án đúng từ file JSON
+        correct_answers_file = 'config/correct_answer.json'
+        version_correct_answers = self.load_correct_answers(correct_answers_file)
+        print(version_correct_answers)
+        if version_correct_answers is None:
+            data['status'] = 1
+            data['error'] = 'Could not load correct answers from file.'
+            return json.dump(data, sys.stdout)
+
 
         # Cast str to float for scale.
         if scale is None:
@@ -284,26 +350,17 @@ class Grader:
             box = TestBox(page, box_config, verbose_mode, debug_mode, scale)
             data[box.name] = box.grade()
 
+        #     # Đáp án đúng cho các phiên bản
+        # version_correct_answers = {
+        #     "A": ["A", "B", "C", "D", "A", "E"],
+        #     "D": ["A", "B", "C", "D", "A", "E"],
+        # }
 
+        # Tính điểm và cập nhật vào data
+        data = self.calculate_score(data, version_correct_answers)
 
         # Output result as a JSON object to stdout.
         json.dump(data, sys.stdout)
-
-        # Đọc file JSON chứa đáp án đúng
-        with open('answer_data.json', 'r') as f:
-            correct_data = json.load(f)
-
-        # Kiểm tra phần version
-        student_version = data['version']['bubbled']
-        correct_version = correct_data['version']['bubbled']
-        if student_version == correct_version:
-
-
-            # Chấm điểm phần answer
-            student_answer = data['answer']['bubbled']
-            correct_answer = correct_data['answer']['bubbled']
-            answer_score = self.grade_single_answer(student_answer, correct_answer)
-
 
         print()
 

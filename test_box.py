@@ -324,7 +324,7 @@ class TestBox:
             cv.imshow('', im)
             cv.waitKey()
 
-        self.images.append(encoded_im)
+        # self.images.append(encoded_im)
 
     def handle_unsure_question(self, question_num, group_num, box):
         """
