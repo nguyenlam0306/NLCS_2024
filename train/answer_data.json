@@ -1,8 +1,0 @@
-{
-  "version": {
-        "bubbled": ["A"]
-    },
-  "answer": {
-        "bubbled": ["A", "C", "A", "C", "A", "E"]
-    }
-}
