@@ -1,0 +1,154 @@
+[
+    {
+        "status": 0,
+        "error": "",
+        "answer": {
+            "status": 0,
+            "error": "",
+            "bubbled": [
+                "A",
+                "C",
+                "?",
+                "?",
+                "A",
+                "E"
+            ],
+            "unsure": [
+                3,
+                4
+            ],
+            "images": []
+        },
+        "version": {
+            "status": 0,
+            "error": "",
+            "bubbled": [
+                "A"
+            ],
+            "unsure": [],
+            "images": []
+        },
+        "id": {
+            "status": 0,
+            "error": "",
+            "bubbled": [
+                "?",
+                "0",
+                "2",
+                "1",
+                "0",
+                "5",
+                "5",
+                "4",
+                "8"
+            ],
+            "unsure": [
+                1
+            ],
+            "images": []
+        },
+        "score": {
+            "correct": 3,
+            "total": 6,
+            "percentage": 50.0
+        }
+    },
+    {
+        "status": 0,
+        "error": "",
+        "answer": {
+            "status": 0,
+            "error": "",
+            "bubbled": [
+                "A",
+                "B",
+                "C",
+                "D",
+                "A",
+                "E"
+            ],
+            "unsure": [],
+            "images": []
+        },
+        "version": {
+            "status": 0,
+            "error": "",
+            "bubbled": [
+                "D"
+            ],
+            "unsure": [],
+            "images": []
+        },
+        "id": {
+            "status": 0,
+            "error": "",
+            "bubbled": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8"
+            ],
+            "unsure": [],
+            "images": []
+        },
+        "score": {
+            "correct": 6,
+            "total": 6,
+            "percentage": 100.0
+        }
+    },
+    {
+        "status": 0,
+        "error": "",
+        "answer": {
+            "status": 0,
+            "error": "",
+            "bubbled": [
+                "A",
+                "B",
+                "C",
+                "D",
+                "A",
+                "E"
+            ],
+            "unsure": [],
+            "images": []
+        },
+        "version": {
+            "status": 0,
+            "error": "",
+            "bubbled": [
+                "D"
+            ],
+            "unsure": [],
+            "images": []
+        },
+        "id": {
+            "status": 0,
+            "error": "",
+            "bubbled": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8"
+            ],
+            "unsure": [],
+            "images": []
+        },
+        "score": {
+            "correct": 6,
+            "total": 6,
+            "percentage": 100.0
+        }
+    }
+]

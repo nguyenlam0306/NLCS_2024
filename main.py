@@ -256,8 +256,8 @@ class Grader:
         if version_correct_answers is None:
             data['status'] = 1
             data['error'] = 'Could not load correct answers from file.'
-            return json.dump(data, sys.stdout)
-
+            # return json.dump(data, sys.stdout)
+            return json.dumps(data)
 
         # Cast str to float for scale.
         if scale is None:
@@ -268,40 +268,45 @@ class Grader:
             except ValueError:
                 data['status'] = 1
                 data['error'] = f'Scale {scale} must be of type float'
-                return json.dump(data, sys.stdout)
+                # return json.dump(data, sys.stdout)
+                return json.dumps(data)
 
         # Verify that scale is positive.
         if scale <= 0:
             data['status'] = 1
             data['error'] = f'Scale {scale} must be positive'
-            return json.dump(data, sys.stdout)
+            # return json.dump(data, sys.stdout)
+            return json.dumps(data)
 
         # Kiem chung file phai la .png or .jpg
         if not (image_name.endswith('.png') or image_name.endswith('.jpg')):
             data['status'] = 1
             data['error'] = f'File {image_name} must be of type .png or .jpg'
-            return json.dump(data, sys.stdout)
+            # return json.dump(data, sys.stdout)
+            return json.dumps(data)
 
         # Khu vuc load hinh anh --> Camera:
         im = cv.imread(image_name)
         if im is None:
             data['status'] = 1
             data['error'] = f'Image {image_name} not found'
-            return json.dump(data, sys.stdout);
+            return json.dump(data, sys.stdout)
 
         # Tim trang va tra ve ket qua
         page = self.find_page(im)
         if page is None:
             data['status'] = 1
             data['error'] = f'Page not found in {image_name}'
-            return json.dump(data, sys.stdout);
+            # return json.dump(data, sys.stdout)
+            return json.dumps(data)
 
         # Xac dinh khu vuc qr code:
         qr_code = self.decode_qr(page)
         if qr_code is None:
             data['status'] = 1
             data['error'] = f'QR code not found in {image_name}'
-            return json.dump(data, sys.stdout);
+            # return json.dump(data, sys.stdout)
+            return json.dumps(data)
         else:
             config_fname = qr_code.data.decode('utf-8')
             # Dua tren qrcode da doc xac dinh xem mau 6q hay mau 50q
@@ -320,8 +325,8 @@ class Grader:
         except FileNotFoundError:
             data['status'] = 1
             data['error'] = f'Configuration file qrData not found'
-            return json.dump(data, sys.stdout)
-
+            # return json.dump(data, sys.stdout)
+            return json.dumps(data)
 
         # Tien hanh parse config theo config file va gia tri config nap vao:
         parser = parser_config.Parser(config, config_fname)
@@ -329,7 +334,8 @@ class Grader:
         if status == 1:
             data['status'] = 1
             data['error'] = error
-            return json.dump(data, sys.stdout)
+            # return json.dump(data, sys.stdout)
+            return json.dumps(data)
 
         # Scale config values based on page size.
         self.scale_config(config, page.shape[1], page.shape[0])
@@ -339,7 +345,8 @@ class Grader:
         if page is None:
             data['status'] = 1
             data['error'] = f'Could not upright page in {image_name}'
-            return json.dump(data, sys.stdout);
+            # return json.dump(data, sys.stdout);
+            return json.dumps(data)
 
         # Grade each test box and add result to data.
         for box_config in config['boxes']:
@@ -350,18 +357,13 @@ class Grader:
             box = TestBox(page, box_config, verbose_mode, debug_mode, scale)
             data[box.name] = box.grade()
 
-        #     # Đáp án đúng cho các phiên bản
-        # version_correct_answers = {
-        #     "A": ["A", "B", "C", "D", "A", "E"],
-        #     "D": ["A", "B", "C", "D", "A", "E"],
-        # }
 
         # Tính điểm và cập nhật vào data
         data = self.calculate_score(data, version_correct_answers)
 
         # Output result as a JSON object to stdout.
-        json.dump(data, sys.stdout)
-
+        # json.dump(data, sys.stdout)
+        # return json.dumps(data)
         print()
 
         # For debugging.
