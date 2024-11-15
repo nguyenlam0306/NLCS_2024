@@ -1,0 +1,49 @@
+[
+    {
+        "status": 1,
+        "error": "Phien ban khong hop le hoac khong co dap an cho phien ban nay",
+        "answer": {
+            "status": 0,
+            "error": "",
+            "bubbled": [
+                "A",
+                "A",
+                "?",
+                "?",
+                "A",
+                "A"
+            ],
+            "unsure": [
+                3,
+                4
+            ],
+            "images": []
+        },
+        "version": {
+            "status": 0,
+            "error": "",
+            "bubbled": [
+                "-"
+            ],
+            "unsure": [],
+            "images": []
+        },
+        "id": {
+            "status": 0,
+            "error": "",
+            "bubbled": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8"
+            ],
+            "unsure": [],
+            "images": []
+        }
+    }
+]

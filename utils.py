@@ -28,6 +28,9 @@ def get_transform(contour, im):
     return four_point_transform(im, approx.reshape(4,2))
 
 def rotate_image(img, angle):
+    """
+        Xoay ảnh theo góc cho trước.
+        """
     w = img.shape[1]
     h = img.shape[0]
     rads = np.deg2rad(angle)
