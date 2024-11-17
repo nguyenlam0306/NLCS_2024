@@ -1,0 +1,53 @@
+[
+    {
+        "status": 0,
+        "error": "",
+        "answer": {
+            "status": 0,
+            "error": "",
+            "bubbled": [
+                "A",
+                "A",
+                "A",
+                "A",
+                "A",
+                "?"
+            ],
+            "unsure": [
+                6
+            ],
+            "images": []
+        },
+        "version": {
+            "status": 0,
+            "error": "",
+            "bubbled": [
+                "A"
+            ],
+            "unsure": [],
+            "images": []
+        },
+        "id": {
+            "status": 0,
+            "error": "",
+            "bubbled": [
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8"
+            ],
+            "unsure": [],
+            "images": []
+        },
+        "score": {
+            "correct": 2,
+            "total": 6,
+            "percentage": 33.33
+        }
+    }
+]

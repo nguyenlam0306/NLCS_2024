@@ -2,7 +2,7 @@ import cv2
 import os
 
 # Đọc file ảnh
-image_path = r"/train/images/50cau/test-vers-50q-01.jpg"
+image_path = r"E:\Projects\exam_grading_system\train\images\50cau\16112024-50q-01-wrongs.jpg"
 
 # Kiểm tra xem file có tồn tại không
 if not os.path.exists(image_path):

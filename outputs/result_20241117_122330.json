@@ -1,0 +1,99 @@
+[
+    {
+        "status": 0,
+        "error": "",
+        "answer": {
+            "status": 0,
+            "error": "",
+            "bubbled": [
+                "C",
+                "C",
+                "C",
+                "C",
+                "C",
+                "C",
+                "C",
+                "A",
+                "A",
+                "A",
+                "A",
+                "A",
+                "A",
+                "A",
+                "A",
+                "A",
+                "A",
+                "A",
+                "A",
+                "A",
+                "A",
+                "A",
+                "A",
+                "A",
+                "A",
+                "E",
+                "E",
+                "E",
+                "E",
+                "E",
+                "E",
+                "E",
+                "E",
+                "E",
+                "A",
+                "A",
+                "A",
+                "A",
+                "A",
+                "C",
+                "C",
+                "C",
+                "C",
+                "C",
+                "D",
+                "D",
+                "D",
+                "D",
+                "A",
+                "A"
+            ],
+            "unsure": [],
+            "images": []
+        },
+        "version": {
+            "status": 0,
+            "error": "",
+            "bubbled": [
+                "A"
+            ],
+            "unsure": [],
+            "images": []
+        },
+        "id": {
+            "status": 0,
+            "error": "",
+            "bubbled": [
+                "2",
+                "2",
+                "?",
+                "2",
+                "?",
+                "2",
+                "?",
+                "2",
+                "2"
+            ],
+            "unsure": [
+                3,
+                5,
+                7
+            ],
+            "images": []
+        },
+        "score": {
+            "correct": 1,
+            "total": 6,
+            "percentage": 16.67
+        }
+    }
+]
